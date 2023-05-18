@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <h2>To-Do List</h2>
-    <todoSimpleForm />
+    <TodoSimpleForm @add-todo="addTodo" />
     <div v-if="!todos.length">
       추가된 Todo가 없습니다
     </div>
@@ -25,36 +25,20 @@
 
 <script>
 import { ref } from 'vue';
-import todoSimpleForm from './components/TodoSimpleForm.vue';
 import TodoSimpleForm from './components/TodoSimpleForm.vue';
 
 export default {
   components: { TodoSimpleForm },
-  componets: {
-    todoSimpleForm,
-  },
   setup() {
     const toggle = ref(false);
-    const todo = ref('');
     const todos = ref([]);
-    const hasError = ref(false);
     const todoStyle = {
       textDecoration: 'line-through',
       color: 'gray'
     };
     
-    const onSubmit = () => {
-      if(todo.value === '') {
-        hasError.value = true;
-      } else {
-        todos.value.push({
-          id: Date.now(),
-          subject: todo.value,
-          completed: false,
-        });
-        hasError.value = false;
-        todo.value = '';
-      }
+    const addTodo = (todo) => {
+      todos.value.push(todo);
     };
 
     const deleteTodo = (index) => {
@@ -67,11 +51,9 @@ export default {
 
     return {
       toggle,
-      todo,
       todos,
-      onSubmit,
+      addTodo,
       onToggle,
-      hasError,
       todoStyle,
       deleteTodo,
     };
