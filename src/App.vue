@@ -9,6 +9,7 @@
     >
     <hr />
     <TodoSimpleForm @add-todo="addTodo" />
+    <div style="color: red">{{ error }}</div>
 
     <div v-if="!filteredTodos.length">
       There is noting to display
@@ -25,6 +26,7 @@
 import { ref, computed } from 'vue';
 import TodoSimpleForm from './components/TodoSimpleForm.vue';
 import TodoList from './components/TodoList.vue';
+import axios from 'axios';
 
 export default {
   components: {
@@ -38,9 +40,20 @@ export default {
       textDecoration: 'line-through',
       color: 'gray'
     };
+    const error = ref('');
     
     const addTodo = (todo) => {
-      todos.value.push(todo);
+      // db에 저장
+      error.value = '';
+      axios.post("http://localhost:3000/todos", {
+        subject: todo.subject,
+        completed: todo.completed,
+      }).then(res => {
+        todos.value.push(res.data);
+      }).catch(err => {
+        console.log(err);
+        error.value = "Somthing wen wrong"
+      });
     };
 
     const toggleTodo = (index) => {
@@ -76,6 +89,7 @@ export default {
       deleteTodo,
       searchText,
       filteredTodos,
+      error,
     };
   }
 }
