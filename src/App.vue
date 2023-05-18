@@ -42,18 +42,21 @@ export default {
     };
     const error = ref('');
     
-    const addTodo = (todo) => {
+    const addTodo = async (todo) => {
       // db에 저장
       error.value = '';
-      axios.post("http://localhost:3000/todos", {
-        subject: todo.subject,
-        completed: todo.completed,
-      }).then(res => {
+
+      try {
+        const res = await axios.post("http://localhost:3000/todos", {
+          subject: todo.subject,
+          completed: todo.completed,
+        });
+
         todos.value.push(res.data);
-      }).catch(err => {
+      } catch (err) {
         console.log(err);
-        error.value = "Somthing wen wrong"
-      });
+        error.value = "Somthing wen wrong";
+      }
     };
 
     const toggleTodo = (index) => {
