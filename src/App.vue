@@ -41,9 +41,20 @@ export default {
       color: 'gray'
     };
     const error = ref('');
+
+    const getTodos = async () => {
+      try {
+        const res = await axios.get("http://localhost:3000/todos");
+        todos.value = res.data;
+      } catch (err) {
+        console.log(err);
+        error.value = "Somthing wen wrong";
+      } 
+    }
+
+    getTodos();
     
     const addTodo = async (todo) => {
-      // db에 저장
       error.value = '';
 
       try {
