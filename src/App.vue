@@ -22,16 +22,28 @@
     <hr />
     <nav aria-label="Page navigation example">
       <ul class="pagination">
-        <li v-if="currentPage !== 1" class="page-item"><a class="page-link" href="#">Previous</a></li>
+        <li
+          v-if="currentPage !== 1"
+          class="page-item"
+          @click="getTodos(currentPage-1)"
+        >
+          <a style="cursor: pointer" class="page-link" href="#">Previous</a>
+        </li>
         <li
           v-for="page in numberOfPages"
           :key="page"
           class="page-item"
           :class="currentPage === page? 'active': ''"
         >
-          <a class="page-link" href="#">{{page}}</a>
+          <a style="cursor: pointer" class="page-link" @click="getTodos(page)">{{page}}</a>
         </li>
-        <li v-if="currentPage !== numberOfPages" class="page-item"><a class="page-link" href="#">Next</a></li>
+        <li
+          v-if="currentPage !== numberOfPages"
+          class="page-item"
+          @click="getTodos(currentPage+1)"
+        >
+          <a style="cursor: pointer" class="page-link" href="#">Next</a>
+        </li>
       </ul>
     </nav>
   </div>
@@ -63,11 +75,12 @@ export default {
     };
     const error = ref('');
 
-    const getTodos = async () => {
+    const getTodos = async (page = currentPage.value) => {
       try {
-        const res = await axios.get(`http://localhost:3000/todos?_page=${currentPage.value}&_limit=${limit}`);
+        const res = await axios.get(`http://localhost:3000/todos?_page=${page}&_limit=${limit}`);
         numberOfTodos.value = res.headers['x-total-count'];
         todos.value = res.data;
+        currentPage.value = page;
       } catch (err) {
         console.log(err);
         error.value = "Somthing wen wrong";
@@ -145,6 +158,7 @@ export default {
       filteredTodos,
       numberOfPages,
       currentPage,
+      getTodos,
       error,
     };
   }
