@@ -2,7 +2,7 @@
   "todos": [
     {
       "subject": "bbbbb",
-      "completed": false,
+      "completed": true,
       "id": 7
     },
     {
