@@ -32,7 +32,7 @@
     },
     {
       "subject": "8",
-      "completed": false,
+      "completed": true,
       "id": 8
     },
     {
@@ -47,12 +47,12 @@
     },
     {
       "subject": "11",
-      "completed": false,
+      "completed": true,
       "id": 11
     },
     {
       "subject": "100",
-      "completed": false,
+      "completed": true,
       "id": 12
     }
   ]
