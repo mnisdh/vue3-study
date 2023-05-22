@@ -79,7 +79,7 @@ export default {
 
     const getTodos = async (page = currentPage.value) => {
       try {
-        const res = await axios.get(`http://localhost:3000/todos?subject_like=${searchText.value}&_page=${page}&_limit=${limit}`);
+        const res = await axios.get(`http://localhost:3000/todos?subject_like=${searchText.value}&_page=${page}&_limit=${limit}&_sort=id&_order=desc`);
         numberOfTodos.value = res.headers['x-total-count'];
         todos.value = res.data;
         currentPage.value = page;
@@ -95,12 +95,12 @@ export default {
       error.value = '';
 
       try {
-        const res = await axios.post("http://localhost:3000/todos", {
+        await axios.post("http://localhost:3000/todos", {
           subject: todo.subject,
           completed: todo.completed,
         });
 
-        todos.value.push(res.data);
+        getTodos(1);
       } catch (err) {
         console.log(err);
         error.value = "Somthing wen wrong";
@@ -126,7 +126,7 @@ export default {
       const id = todos.value[index].id;
       try {
         await axios.delete("http://localhost:3000/todos/" + id);
-        todos.value.splice(index, 1);
+        getTodos(currentPage.value);
       } catch(err) {
         console.log(err);
         error.value = "Somthing wen wrong";
