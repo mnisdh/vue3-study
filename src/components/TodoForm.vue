@@ -105,9 +105,6 @@ export default {
         completed: false,
         body: ''
     });
-    onUpdated(() => {
-        console.log(todo.value.subject);
-    });
     const subjectError = ref('');
     const originalTodo = ref(null);
     const loading = ref(false);
