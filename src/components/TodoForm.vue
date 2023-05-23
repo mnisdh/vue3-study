@@ -17,7 +17,7 @@
                     >
                     <div
                         v-if="subjectError"
-                        style="color: red"
+                        class="text-red"
                     >
                         {{ subjectError }}
                     </div>
@@ -172,22 +172,24 @@ export default {
         }
     }
 
-    return {
-      todo,
-      loading,
-      toggleTodoStatus,
-      moveToTodoListPage,
-      onSave,
-      todoUpdated,
-      showToast,
-      toastMessage,
-      toastAlertType,
-      subjectError,
-    };
-  }
+        return {
+            todo,
+            loading,
+            toggleTodoStatus,
+            moveToTodoListPage,
+            onSave,
+            todoUpdated,
+            showToast,
+            toastMessage,
+            toastAlertType,
+            subjectError,
+        };
+    }
 }
 </script>
 
-<style>
-
+<style scoped>
+    .text-red {
+        color: red
+    }
 </style>
