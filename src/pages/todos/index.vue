@@ -65,7 +65,7 @@
 <script>
 import { ref, computed, watch } from 'vue';
 import TodoList from '@/components/TodoList.vue';
-import axios from 'axios';
+import axios from '@/axios';
 import Toast from '@/components/Toast.vue';
 import { useToast } from '@/composables/toast';
 import { useRouter } from 'vue-router';
@@ -117,7 +117,7 @@ export default {
 
     const getTodos = async (page = currentPage.value) => {
       try {
-        const res = await axios.get(`http://localhost:3000/todos?subject_like=${searchText.value}&_page=${page}&_limit=${limit}&_sort=id&_order=desc`);
+        const res = await axios.get(`todos?subject_like=${searchText.value}&_page=${page}&_limit=${limit}&_sort=id&_order=desc`);
         numberOfTodos.value = res.headers['x-total-count'];
         todos.value = res.data;
         currentPage.value = page;
@@ -134,7 +134,7 @@ export default {
       error.value = '';
 
       try {
-        await axios.post("http://localhost:3000/todos", {
+        await axios.post('todos', {
           subject: todo.subject,
           completed: todo.completed,
         });
@@ -151,7 +151,7 @@ export default {
       error.value = "";
       const id = todos.value[index].id;
       try {
-        await axios.patch("http://localhost:3000/todos/" + id, {
+        await axios.patch('todos/' + id, {
           completed: checked
         });
         todos.value[index].completed = checked;
@@ -166,7 +166,7 @@ export default {
       error.value = "";
       
       try {
-        await axios.delete("http://localhost:3000/todos/" + id);
+        await axios.delete('todos/' + id);
         getTodos(currentPage.value);
       } catch(err) {
         console.log(err);
