@@ -68,13 +68,6 @@
             Cancel
         </button>
     </form>
-    <transition name="fade">
-        <Toast
-            v-if="showToast"
-            :message="toastMessage"
-            :type="toastAlertType"
-        />
-    </transition>
 </template>
 
 <script>
