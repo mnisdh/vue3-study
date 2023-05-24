@@ -82,6 +82,7 @@ import { useRoute, useRouter } from 'vue-router';
 import axios from '@/axios';
 import { ref, computed } from 'vue';
 import _ from 'lodash';
+import { useToast } from '@/composables/toast'
 import Input from '@/components/Input.vue';
 
 export default {
@@ -106,6 +107,12 @@ export default {
     const originalTodo = ref(null);
     const loading = ref(false);
     const todoId = route.params.id;
+    const {
+        toastMessage,
+        toastAlertType,
+        showToast,
+        triggerToast
+    } = useToast();
 
     const getTodo = async () => {
       try {
