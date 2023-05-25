@@ -28,32 +28,12 @@
       @delete-todo="deleteTodo"
     />
     <hr />
-    <nav aria-label="Page navigation example">
-      <ul class="pagination">
-        <li
-          v-if="currentPage !== 1"
-          class="page-item"
-          @click="getTodos(currentPage-1)"
-        >
-          <a style="cursor: pointer" class="page-link" href="#">Previous</a>
-        </li>
-        <li
-          v-for="page in numberOfPages"
-          :key="page"
-          class="page-item"
-          :class="currentPage === page? 'active': ''"
-        >
-          <a style="cursor: pointer" class="page-link" @click="getTodos(page)">{{page}}</a>
-        </li>
-        <li
-          v-if="currentPage !== numberOfPages"
-          class="page-item"
-          @click="getTodos(currentPage+1)"
-        >
-          <a style="cursor: pointer" class="page-link" href="#">Next</a>
-        </li>
-      </ul>
-    </nav>
+    <Pagenation
+      v-if="todos.length"
+      :numberOfPages="numberOfPages"
+      :currentPage="currentPage"
+      @click="getTodos"
+    />
   </div>
 </template>
 
@@ -63,10 +43,12 @@ import TodoList from '@/components/TodoList.vue';
 import axios from '@/axios';
 import { useToast } from '@/composables/toast';
 import { useRouter } from 'vue-router';
+import Pagenation from '@/components/Pagenation.vue';
 
 export default {
   components: {
-    TodoList
+    TodoList,
+    Pagenation,
   },
   setup() {
     const router = useRouter();
@@ -83,21 +65,6 @@ export default {
       toastAlertType,
       triggerToast
     } = useToast();
-
-    // const showToast = ref(false);
-    // const toastMessage = ref('');
-    // const toastAlertType = ref('');
-    // const toastTimeout = ref(null);
-    // const triggerToast = (message, type = 'success') => {
-    //   toastMessage.value = message;
-    //   toastAlertType.value = type;
-    //   showToast.value = true;
-    //   toastTimeout.value = setTimeout(() => {
-    //     toastMessage.value = '';
-    //     toastAlertType.value = '';
-    //     showToast.value = false;
-    //   }, 3000);
-    // }
 
     const numberOfPages = computed(() => {
       return Math.ceil(numberOfTodos.value / limit);
